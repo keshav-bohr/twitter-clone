@@ -16,8 +16,11 @@ function addHashtags(content, id) {
                         counter: 1,
                         tweetId: id
                     })
-                    newTrend.save();
+                    return newTrend.save();
                 }
+            })
+            .then(trendTag => {
+                success: true
             })
             .catch(error => {
                 console.error(error);

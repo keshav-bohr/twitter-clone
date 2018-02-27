@@ -10,13 +10,20 @@ function deleteTweetHandler(req, res, next){
         "user": req.currentUser.id
     })
     .then(tweet => {
-        if(tweet.public){
-            deleteHashtags(tweet.content, tweet.id)
+        if(tweet){
+            if(tweet.public){
+                deleteHashtags(tweet.content, tweet.id)
+            }
+            tweet.remove()
+            res.json({
+                success : true
+            })
         }
-        tweet.remove()
-        res.json({
-            success : true
-        })
+        else{
+            res.json({
+                message: "tweet not found"
+            })
+        }
     })
     .catch(error => {
         next(error)
@@ -25,6 +32,6 @@ function deleteTweetHandler(req, res, next){
 
 
 
-router.post('/delete', deleteTweetHandler);
+router.delete('/delete', deleteTweetHandler);
 
 module.exports = exports = router;

@@ -12,7 +12,7 @@ function deleteHashtags(content, id) {
                 }
                 else{
                     if(trendTag){
-                        return trendTag.update({$inc : {counter : -1}, $pull : {"tweetId" : id}})    // check the query
+                        return trendTag.update({$inc : {counter : -1}, $pull : {"tweetId" : id}})
                     }
                 }
             })
