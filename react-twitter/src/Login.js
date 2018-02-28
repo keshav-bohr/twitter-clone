@@ -58,6 +58,7 @@ class Login extends Component{
                     <input type = "password" onChange = {this.setPassword} placeholder = "Password" />
                     <button type = "button" onClick = {this.sendDataToDb}> Login </button>
                 </form>
+                {/* { this.state.loggedIn ? <TweetsOfFollowing /> : null } */}
             </div>
         )
     }

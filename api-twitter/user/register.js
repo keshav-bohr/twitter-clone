@@ -4,6 +4,7 @@ const router = require('express').Router();
 
 function registerHandler(req, res, next){
     var newUser = new user({
+        name: req.body.name,
         username : req.body.username,
         password : req.body.password,
         email : req.body.email,

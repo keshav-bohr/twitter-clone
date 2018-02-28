@@ -13,7 +13,7 @@ const deleteTweetRouter = require('./tweets/deleteTweet');
 const config = require('./config/passport');
 const authToken = require('./authToken/authMiddleware');
 const followUserRouter = require('./follow/followUser');
-
+const timelineTweetsRouter = require('./tweets/timelineTweets');
 
 
 
@@ -63,6 +63,9 @@ app.use('/tweet',deleteTweetRouter);
 
 // Follow user router
 app.use('/', followUserRouter)
+
+// Timeline Tweets router
+app.use('/tweet', timelineTweetsRouter);
 
 
 // Server at 3001
