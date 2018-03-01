@@ -1,0 +1,22 @@
+
+
+.kwitterBird {
+  display: block;
+  margin-left: 0;
+  width: 50%;
+}
+
+.Homepage {
+  position: absolute;
+  top : 0%;
+  right : 10%;
+}
+
+button{
+  margin-right: 5px
+}
+
+div:empty { 
+  visibility: hidden 
+}
+

@@ -1,41 +1,18 @@
 import React, {Component} from 'react'
 import Register from './Register'
 import Login from './Login'
+import kwitterBird from './twitter-clone-CSS/Kwitter-bird.png'
+
+import UserHomepage from './UserHomepage'
 
 class Homepage extends Component{
     constructor(props){
         super(props)
         this.state = {
-            // error : '',
-            register : false,
-            login : true,
             loggedIn : false
         }
-        this.setRegister = this.setRegister.bind(this);
-        this.setLogin = this.setLogin.bind(this);
         this.checkLoginStatus = this.checkLoginStatus.bind(this)
-        // this.setError = this.setError.bind(this);
-    }
-
-    // setError(errorFromServer){
-    //     this.setState({
-    //       error : errorFromServer 
-    //     })
-    // }
-    
-
-    setRegister(){
-        this.setState({
-            register : true,
-            login : false
-        })
-    }
-
-    setLogin(){
-        this.setState({
-            login : true,
-            register : false
-        })
+        this.showHomepage = this.showHomepage.bind(this)
     }
 
     checkLoginStatus(loggedInStatus){
@@ -44,17 +21,26 @@ class Homepage extends Component{
         })
     }
 
-    
+    showHomepage(){
+        return <div>
+                    <img src = {kwitterBird} className = "kwitterBird" alt = "Bird"/>
+                    <div className = "Homepage">
+                        <Login checkLoginStatus = {this.checkLoginStatus} errorMessage = {this.setError}/>
+                        <br /><br />
+                        <h1>Welcome to Kwitter</h1>
+                        <br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+                        <h3>See what's happening in the WAL right now</h3><br />
+                        <h5>Join Kwitter today</h5>
+                        <Register errorMessage = {this.setError}/>
+                    </div>
+                </div> 
+    }
+
+
     render(){
         return(
             <div>
-                {/* <p>{this.state.error}</p> */}
-                <div>
-                    <button type = "button" onClick = {this.setRegister}> Register </button>
-                    <button type = "button" onClick = {this.setLogin}> Login </button>
-                </div>
-                { this.state.register ? <Register errorMessage = {this.setError}/> : null }
-                { this.state.login ? <Login checkLoginStatus = {this.checkLoginStatus} errorMessage = {this.setError} /> : null }
+                {!this.state.loggedIn? this.showHomepage(): <UserHomepage /> }
             </div>
         )
     }

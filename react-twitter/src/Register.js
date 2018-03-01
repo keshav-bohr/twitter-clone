@@ -9,14 +9,11 @@ class Register extends Component{
             name : "",
             username : "",
             password : "",
-            email: "",
-            DOB: ""
+            message : ""
         }
         this.setName = this.setName.bind(this);
         this.setUsername = this.setUsername.bind(this);
         this.setPassword = this.setPassword.bind(this);
-        this.setEmail = this.setEmail.bind(this);
-        this.setDOB = this.setDOB.bind(this);
         this.sendDataToDb = this.sendDataToDb.bind(this);
     }
 
@@ -38,17 +35,6 @@ class Register extends Component{
         })
     }
 
-    setEmail(e){
-        this.setState({
-            email : e.target.value
-        })
-    }
-
-    setDOB(e){
-        this.setState({
-            DOB : e.target.value
-        })
-    }
 
     sendDataToDb(){
         axios({
@@ -57,9 +43,7 @@ class Register extends Component{
             data : {
                 name : this.state.name,
                 username : this.state.username,
-                password : this.state.password,
-                email : this.state.email,
-                DOB: this.state.DOB
+                password : this.state.password
             }
         })
         .then(res => {
@@ -67,27 +51,34 @@ class Register extends Component{
                 name: '',
                 username: '',
                 password : '',
-                email: '',
-                DOB: ''
+                message : "registration successful"
             })
         })
         .catch(error => {
-            console.error(error);
+            if(this.state.password.length >= 6){
+                this.setState({
+                    message : "Username is not available"
+                })
+            }
+            else{
+                this.setState({
+                    message : "Password should have atleast 6 characters"
+                })
+            }
         })
     }
 
 
     render(){
         return(
-            <div>
-                <form>
-                    <input type = "text" onChange = {this.setName} value = {this.state.name} placeholder = "Name" />
-                    <input type = "text" onChange = {this.setUsername} value = {this.state.username} placeholder = "Username" />
-                    <input type = "password" onChange = {this.setPassword} value = {this.state.password} placeholder = "Password" />
-                    <input type = "text" onChange = {this.setEmail} value = {this.state.email} placeholder = "Email" />
-                    <input type = "text" onChange = {this.setDOB} value = {this.state.DOB} placeholder = "Date of Birth (mm/dd/yyyy)" />
-                    <button type = "button" onClick = {this.sendDataToDb}> Register </button>
+            <div className = "form-group" >
+                <form className = "form-horizontal" >
+                    <input type = "text" className = "form-control" spellCheck="false" onChange = {this.setName} value = {this.state.name} placeholder = "Name" /> <br />
+                    <input type = "text" className = "form-control" spellCheck="false" onChange = {this.setUsername} value = {this.state.username} placeholder = "Username" /> <br />
+                    <input type = "password" className = "form-control" onChange = {this.setPassword} value = {this.state.password} placeholder = "Password" /> <br />
+                    <button type = "button" className = "btn" onClick = {this.sendDataToDb}> Register </button>
                 </form>
+                {this.state.message}
             </div>
         )
     }

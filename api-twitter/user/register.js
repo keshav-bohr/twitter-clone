@@ -7,8 +7,6 @@ function registerHandler(req, res, next){
         name: req.body.name,
         username : req.body.username,
         password : req.body.password,
-        email : req.body.email,
-        DOB : req.body.DOB
     })
     newUser.save()
     .then(user => {

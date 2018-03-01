@@ -6,6 +6,9 @@ const tweetSchema = new mongoose.Schema({
         type: String,
         required: true
     }
+    ,username : {
+        type: String
+    }
     ,public: {
         type: Boolean,
         default: true

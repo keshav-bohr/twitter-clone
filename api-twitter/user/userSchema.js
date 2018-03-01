@@ -19,22 +19,6 @@ const userSchema = new mongoose.Schema({
         minlength : 6
     }
 
-    ,email: {
-        type : String,
-        unique : true,
-        sparse : true,
-        validate : {
-            validator : (value) => {
-                return validator.isEmail(value)
-            }
-            ,message : `provide a valid email`
-        }
-    }
-
-    ,DOB : {
-        type : Date
-    }
-
     ,createdAt : {
         type : Date,
         default : Date.now()

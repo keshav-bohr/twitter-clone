@@ -9,7 +9,8 @@ function createTweetHandler(req, res, next){
     var newTweet = new tweet({
         content: req.body.content,
         public: req.body.public,
-        user: req.currentUser.id
+        user: req.currentUser.id,
+        username : req.currentUser.username
     })
 
     newTweet.save()

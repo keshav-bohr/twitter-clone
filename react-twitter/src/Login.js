@@ -8,7 +8,8 @@ class Login extends Component{
         this.state = {
             username : "",
             password : "",
-            loggedIn : false
+            loggedIn : false,
+            error : ''
         }
         this.setUsername = this.setUsername.bind(this);
         this.setPassword = this.setPassword.bind(this);
@@ -34,7 +35,8 @@ class Login extends Component{
             data : {
                 username : this.state.username,
                 password : this.state.password
-            }
+            },
+            withCredentials : true
         })
         .then(res => {
             this.setState({
@@ -45,20 +47,26 @@ class Login extends Component{
             this.props.checkLoginStatus(this.state.loggedIn)
         })
         .catch(error => {
-            console.error(error);
+            if(error.message === "Request failed with status code 401"){
+                this.setState({
+                    error : "Invalid username or password"
+                })
+            }
         })
     }
 
 
     render(){
         return(
-            <div>
-                <form>
-                    <input type = "text" onChange = {this.setUsername} placeholder = "Username" />
-                    <input type = "password" onChange = {this.setPassword} placeholder = "Password" />
-                    <button type = "button" onClick = {this.sendDataToDb}> Login </button>
+            <div className = "form-group">
+                <div className = "alert alert-danger" role="alert">
+                    {this.state.error}
+                </div>
+                <form className = "form-inline">
+                    <input type = "text" className = "form-control" onChange = {this.setUsername} placeholder = "Username" />
+                    <input type = "password" className = "form-control" onChange = {this.setPassword} placeholder = "Password" />
+                    <button type = "button" className = "btn btn-sm" onClick = {this.sendDataToDb}> Login </button>
                 </form>
-                {/* { this.state.loggedIn ? <TweetsOfFollowing /> : null } */}
             </div>
         )
     }

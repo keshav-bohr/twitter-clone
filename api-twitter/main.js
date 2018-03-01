@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const app = express();
 const passport = require('passport');
+const cookieParser = require('cookie-parser')
 
 
 const registerApiRouter = require('./user/register');
@@ -26,6 +27,9 @@ app.use(cors({
 // Connect to database
 mongoose.connect("mongodb://localhost:27017/twitter-clone");
 
+
+// Cookie parser middleware
+app.use(cookieParser())
 
 
 // Parse json data

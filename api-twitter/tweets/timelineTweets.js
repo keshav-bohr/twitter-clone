@@ -12,11 +12,18 @@ function timelineTweetsHandler(req, res, next){
         var tweetsOfFollowing = [];
         tweetModel.find({user : { $in : followRecord.following}})
         .then(requiredTweets => {
-            tweetsOfFollowing.push(...requiredTweets);
-            tweetsOfFollowing.sort(function(a, b){return a.createdAt - b.createdAt})
-            res.json({
-                tweetsOfFollowing
-            })
+            if(requiredTweets){
+                tweetsOfFollowing.push(...requiredTweets);
+                tweetsOfFollowing.sort(function(a, b){return a.createdAt - b.createdAt})
+                res.json({
+                    tweets : tweetsOfFollowing
+                })
+            }
+            else{
+                res.json({
+                    tweets : "no tweets found"
+                })
+            }
         })
     })
     .catch(error => {
