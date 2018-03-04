@@ -15,6 +15,7 @@ const config = require('./config/passport');
 const authToken = require('./authToken/authMiddleware');
 const followUserRouter = require('./follow/followUser');
 const timelineTweetsRouter = require('./tweets/timelineTweets');
+const searchUserRouter = require('./user/searchUser')
 
 
 
@@ -70,6 +71,10 @@ app.use('/', followUserRouter)
 
 // Timeline Tweets router
 app.use('/tweet', timelineTweetsRouter);
+
+
+// Search user router
+app.use('/user', searchUserRouter)
 
 
 // Server at 3001

@@ -29,30 +29,38 @@ class Login extends Component{
     }
 
     sendDataToDb(){
-        axios({
-            method : 'post',
-            url : 'http://localhost:3001/user/login',
-            data : {
-                username : this.state.username,
-                password : this.state.password
-            },
-            withCredentials : true
-        })
-        .then(res => {
-            this.setState({
-                username: '',
-                password : '',
-                loggedIn : true
+        if(this.state.username && this.state.password){
+            axios({
+                method : 'post',
+                url : 'http://localhost:3001/user/login',
+                data : {
+                    username : this.state.username,
+                    password : this.state.password
+                },
+                withCredentials : true
             })
-            this.props.checkLoginStatus(this.state.loggedIn)
-        })
-        .catch(error => {
-            if(error.message === "Request failed with status code 401"){
+            .then(res => {
                 this.setState({
-                    error : "Invalid username or password"
+                    username: '',
+                    password : '',
+                    loggedIn : true
                 })
-            }
-        })
+                this.props.checkLoginStatus(this.state.loggedIn)
+            })
+            .catch(error => {
+                if(error.message === "Request failed with status code 401"){
+                    this.setState({
+                        error : "Invalid username or password"
+                    })
+                }
+            })
+        }
+
+        else{
+            this.setState({
+                error : 'Username and password, both are required'
+            })
+        }
     }
 
 
@@ -63,8 +71,8 @@ class Login extends Component{
                     {this.state.error}
                 </div>
                 <form className = "form-inline">
-                    <input type = "text" className = "form-control" onChange = {this.setUsername} placeholder = "Username" />
-                    <input type = "password" className = "form-control" onChange = {this.setPassword} placeholder = "Password" />
+                    <input type = "text" className = "form-control " onChange = {this.setUsername} placeholder = "Username"/>
+                    <input type = "password" className = "form-control " onChange = {this.setPassword} placeholder = "Password" />
                     <button type = "button" className = "btn btn-sm" onClick = {this.sendDataToDb}> Login </button>
                 </form>
             </div>

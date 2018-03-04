@@ -10,6 +10,7 @@ class TweetsOfFollowing extends Component{
             tweets : []
         }
         this.getTweetsFromDb = this.getTweetsFromDb.bind(this);
+        this.setRefreshTweets = this.setRefreshTweets.bind(this);
     }
 
     getTweetsFromDb(){
@@ -30,6 +31,12 @@ class TweetsOfFollowing extends Component{
     }
 
 
+    setRefreshTweets(){
+        this.setState({
+            refreshTweets : true
+        })
+    }
+
     componentDidMount(){
         this.getTweetsFromDb()
     }
@@ -37,7 +44,14 @@ class TweetsOfFollowing extends Component{
     render(){
         return(
             <div>
-                <p>hello</p>
+                <div className="container-fluid"> 
+                    <div className="row">
+                        <div className="col-md-4 offset-md-4" >
+                            <button type = "button" className = "btn form-control input-lg" id="refreshTweets" onClick = {this.setRefreshTweets} >Refresh</button>
+                        </div>
+                    </div>
+                </div>
+                {this.state.refreshTweets ? this.getTweetsFromDb() : null}
             </div>
         )
     }

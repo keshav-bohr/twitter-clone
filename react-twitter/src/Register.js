@@ -9,7 +9,8 @@ class Register extends Component{
             name : "",
             username : "",
             password : "",
-            message : ""
+            messageFailure : "",
+            messageSuccess : ''
         }
         this.setName = this.setName.bind(this);
         this.setUsername = this.setUsername.bind(this);
@@ -37,35 +38,46 @@ class Register extends Component{
 
 
     sendDataToDb(){
-        axios({
-            method : 'post',
-            url : 'http://localhost:3001/user/register',
-            data : {
-                name : this.state.name,
-                username : this.state.username,
-                password : this.state.password
-            }
-        })
-        .then(res => {
-            this.setState({
-                name: '',
-                username: '',
-                password : '',
-                message : "registration successful"
+        if(this.state.name && this.state.username && this.state.password){
+            axios({
+                method : 'post',
+                url : 'http://localhost:3001/user/register',
+                data : {
+                    name : this.state.name,
+                    username : this.state.username,
+                    password : this.state.password
+                }
             })
-        })
-        .catch(error => {
-            if(this.state.password.length >= 6){
+            .then(res => {
                 this.setState({
-                    message : "Username is not available"
+                    name: '',
+                    username: '',
+                    password : '',
+                    messageSuccess : "registration successful",
+                    messageFailure : ''
                 })
-            }
-            else{
-                this.setState({
-                    message : "Password should have atleast 6 characters"
-                })
-            }
-        })
+            })
+            .catch(error => {
+                if(this.state.password.length >= 6){
+                    this.setState({
+                        messageFailure : "Username is not available",
+                        messageSuccess : ''
+                    })
+                }
+                else{
+                    this.setState({
+                        messageFailure : "Password should have atleast 6 characters",
+                        messageSuccess : ''
+                    })
+                }
+            })
+        }
+
+        else{
+            this.setState({
+                message : 'Required : Name, Username And Password'
+            })
+        }
     }
 
 
@@ -73,12 +85,18 @@ class Register extends Component{
         return(
             <div className = "form-group" >
                 <form className = "form-horizontal" >
-                    <input type = "text" className = "form-control" spellCheck="false" onChange = {this.setName} value = {this.state.name} placeholder = "Name" /> <br />
-                    <input type = "text" className = "form-control" spellCheck="false" onChange = {this.setUsername} value = {this.state.username} placeholder = "Username" /> <br />
-                    <input type = "password" className = "form-control" onChange = {this.setPassword} value = {this.state.password} placeholder = "Password" /> <br />
+                    <input type = "text" className = "form-control" spellCheck="false" onChange = {this.setName} value = {this.state.name} placeholder = "Name*" /> <br />
+                    <input type = "text" className = "form-control" spellCheck="false" onChange = {this.setUsername} value = {this.state.username} placeholder = "Username*" /> <br />
+                    <input type = "password" className = "form-control" onChange = {this.setPassword} value = {this.state.password} placeholder = "Password*" /> <br />
                     <button type = "button" className = "btn" onClick = {this.sendDataToDb}> Register </button>
                 </form>
-                {this.state.message}
+                <br />
+                <div className = "alert alert-danger" role="alert">
+                    {this.state.messageFailure}
+                </div>
+                <div className = "alert alert-success" role="alert">
+                    {this.state.messageSuccess}
+                </div>
             </div>
         )
     }
