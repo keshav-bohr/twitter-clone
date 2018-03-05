@@ -5,35 +5,30 @@ const user = require('../user/userModel')
 
 
 function followUserHandler(req, res, next){
-    let followId;
-    user.findOne({username: req.body.username})
-    .then(user => {
-        followId = user.id;
-        return followModel.findOne({user : req.currentUser.id})
-    })
+    followModel.findOne({username : req.currentUser.username})
     .then(followRecord => {
         if(followRecord){
-            return followRecord.update({$push : {"following" : followId}});
+            return followRecord.update({$push : {"following" : req.body.username}});
         }
         else{
             var newFollow = new followModel({
-                user: req.currentUser.id,
-                following : followId
+                username: req.currentUser.username,
+                following : req.body.username
             })
             return newFollow.save();
         }
     })
     .then(followRecord => {
-        return followModel.findOne({user : followId})
+        return followModel.findOne({username : req.body.username})
     })
     .then(followRecord => {
         if(followRecord){
-            return followRecord.update({$push : {"followers" : req.currentUser.id}});
+            return followRecord.update({$push : {"followers" : req.currentUser.username}});
         }
         else{
             var newFollow = new followModel({
-                user: followId,
-                followers : req.currentUser.id
+                username: req.body.username,
+                followers : req.currentUser.username
             })
             return newFollow.save()
         }

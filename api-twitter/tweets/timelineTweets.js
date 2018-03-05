@@ -7,11 +7,11 @@ const tweetModel = require('./tweetModel');
 
 
 function timelineTweetsHandler(req, res, next){
-    followModel.findOne({"user" : req.currentUser.id})
+    followModel.findOne({"username" : req.currentUser.username})
     .then(followRecord => {
         var tweetsOfFollowing = [];
         if(followRecord){
-            tweetModel.find({user : { $in : followRecord.following}})
+            tweetModel.find({username : { $in : followRecord.following}})
             .then(requiredTweets => {
                 if(requiredTweets){
                     tweetsOfFollowing.push(...requiredTweets);

@@ -6,20 +6,20 @@ class SearchUser extends Component{
     constructor(props){
         super(props)
         this.state = {
-            search : '',
+            searchContent : '',
             users : [],
-            searchFlag : false
+            searchFlag : false,
         }
         this.checkUserFromDb = this.checkUserFromDb.bind(this)
         this.setSearch = this.setSearch.bind(this)
+        this.showUserProfile = this.showUserProfile.bind(this)
     }
 
     setSearch(e){
         this.setState({
-            search : e.target.value,
+            searchContent : e.target.value,
             searchFlag : true
         })
-        // this.checkUserFromDb()
     }
 
 
@@ -28,7 +28,7 @@ class SearchUser extends Component{
             method: 'post',
             url: "http://localhost:3001/user/search",
             data: {
-                name: this.state.search,
+                name: this.state.searchContent,
             },
             withCredentials : true
         })
@@ -44,17 +44,24 @@ class SearchUser extends Component{
     }
 
 
+    showUserProfile(username){
+        this.props.userProfile(username)
+        this.setState({
+            searchContent : ''
+        })
+    }
+
 
 
     render(){
+        var showing = this.state.searchContent ? 'block' : 'none'
         return(
-            <div>
-                <input type = "text" onChange = {this.setSearch} />
-                {/* {this.state.search ? this.checkUserFromDb() : null} */}
+            <div id = "searchResults">
+                <input type = "text" onChange = {this.setSearch} className = "form-control" value = {this.state.searchContent} placeholder = "Search" />
                 {this.state.searchFlag ? this.checkUserFromDb() : null}
-                <div >
+                <div  style = {{display : showing}} >
                     {this.state.users.map((element, index) => {
-                        return <div key = {index}>{element.name}</div>
+                        return <a className = "list-group-item"  key = {index} onClick = {this.showUserProfile.bind(this,element.username)} >{element.name}</a>
                     })}
                 </div>
             </div>

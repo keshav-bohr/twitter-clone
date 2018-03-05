@@ -2,21 +2,17 @@ const mongoose = require('mongoose');
 const user = require('../user/userModel')
 
 const followSchema = new mongoose.Schema({
-    user: {
-        type : mongoose.Schema.Types.ObjectId,
-        ref : 'user'
+    username : {
+        type: String
     }
     ,followers: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'user'
+        type: String
     }]
     ,following: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'user'
+        type: String
     }]
     ,blocked: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref:'user'
+        type: String
     }]
 })
 

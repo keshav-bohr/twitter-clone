@@ -21,7 +21,7 @@ class TweetsOfFollowing extends Component{
         })
         .then(res => {
             this.setState({
-                notes : res.data,
+                tweets : res.data.tweets,
                 refreshTweets : false
             })
         })
@@ -48,6 +48,9 @@ class TweetsOfFollowing extends Component{
                     <div className="row">
                         <div className="col-md-4 offset-md-4" >
                             <button type = "button" className = "btn form-control input-lg" id="refreshTweets" onClick = {this.setRefreshTweets} >Refresh</button>
+                            {this.state.tweets.map((element, index) => {
+                                return <div key = {index}><p>{element.content}</p></div>
+                            })}
                         </div>
                     </div>
                 </div>

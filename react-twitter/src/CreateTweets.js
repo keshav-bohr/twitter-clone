@@ -42,6 +42,9 @@ class CreateTweets extends Component{
             })
             .then(res => {
                 this.props.setMessage("Kweet Created")
+                this.setState({
+                    content : ''
+                })
             })
             .catch(error => {
                 this.props.setMessage("Kweet could not be created. Some internal error occurred")
@@ -61,7 +64,8 @@ class CreateTweets extends Component{
                                 <span>    Private</span>
                                 <button type = "button" id = "createTweetButton" className = "btn btn-sm" onClick = {this.sendTweetToDB} > Create Kweet </button>
                             </div> :<div><br /></div>}
-                            <textarea rows = "1" type="text" className="form-control input-lg" id="myInput" onChange = {this.setContent} placeholder="Create Kweet Here" />
+                            
+                            <textarea rows = "1" type="text" className="form-control input-lg" id="myInput" value = {this.state.content} onChange = {this.setContent} placeholder="Create Kweet Here" />
                             {/* listtweets */}
                             <br />
                         </div>
