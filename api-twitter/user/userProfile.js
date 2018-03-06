@@ -11,17 +11,25 @@ function userProfileHandler(req, res, next){
         tweets : [],
         followDetails : {
             following : [],
-            follower : []
+            follower : [],
+            blocked : []
         },
         same : false,
-        isFollowing : false
+        isFollowing : false,
+        isBlocked : false
     }
 
     user.findOne({username : req.body.username})
     .then(user => {
         profileData.userDetails.name = user.name;
         profileData.userDetails.username = user.username;
-        return followModel.findOne({username : req.currentUser.username, following: user.username})
+        return followModel.findOne({username : req.currentUser.username, blocked: user.username})
+    })
+    .then(followRecord => {
+        if(followRecord){
+            profileData.isBlocked = true
+        }
+        return followModel.findOne({username : req.currentUser.username, following: req.body.username})
     })
     .then(followRecord => {
         if(followRecord || req.body.username === req.currentUser.username){
@@ -33,7 +41,9 @@ function userProfileHandler(req, res, next){
         }
     })
     .then(tweets => {
-        profileData.tweets = tweets;
+        if(!profileData.isBlocked){
+            profileData.tweets = tweets;
+        }
         return followModel.findOne({username: req.body.username})
     })
     .then(followRecord => {
@@ -42,7 +52,8 @@ function userProfileHandler(req, res, next){
             profileData.followDetails.follower = followRecord.followers;
         }
         if(req.body.username === req.currentUser.username){
-            profileData.same = true
+            profileData.same = true,
+            profileData.followDetails.blocked = followRecord.blocked
         }
         res.json({
             profileData

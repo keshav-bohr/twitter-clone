@@ -15,21 +15,21 @@ function timelineTweetsHandler(req, res, next){
             .then(requiredTweets => {
                 if(requiredTweets){
                     tweetsOfFollowing.push(...requiredTweets);
-                    tweetsOfFollowing.sort(function(a, b){return a.createdAt - b.createdAt})
+                    tweetsOfFollowing.sort(function(a, b){return b.createdAt - a.createdAt})
                     res.json({
                         tweets : tweetsOfFollowing
                     })
                 }
                 else{
                     res.json({
-                        tweets : "no tweets found"
+                        tweets : ["no tweets found"]
                     })
                 }
             })
         }
         else{
             res.json({
-                tweets : "you have no followings"
+                tweets : ["you have no followings"]
             })
         }
     })

@@ -99,3 +99,20 @@ div:empty {
   /* right : 373px; */
   /* background-color: slateblue */
 /* } */
+
+
+
+#homeButton {
+  position: absolute;
+  z-index: 1;
+  top : 1%;
+  left: 1%;
+}
+
+
+#profileButton{
+  position: absolute;
+  z-index: 1;
+  top : 1%;
+  left: 5%
+}

@@ -7,14 +7,17 @@ const passport = require('passport');
 const cookieParser = require('cookie-parser')
 
 
-const registerApiRouter = require('./user/register');
-const loginApiRouter = require('./user/login')
+const registerRouter = require('./user/register');
+const loginRouter = require('./user/login')
 const createTweetRouter = require('./tweets/createTweet');
 const deleteTweetRouter = require('./tweets/deleteTweet');
 const config = require('./config/passport');
 const authToken = require('./authToken/authMiddleware');
+const currentUsernameRouter = require('./user/currentUsername')
 const followUserRouter = require('./follow/followUser');
-const unfollowUserRouter = require('./follow/unfollowUser')
+const unfollowUserRouter = require('./follow/unfollowUser');
+const blockUserRouter = require('./follow/blockUser');
+const unblockUserRouter = require('./follow/unblockUser');
 const timelineTweetsRouter = require('./tweets/timelineTweets');
 const searchUserRouter = require('./user/searchUser')
 const userProfileRouter = require('./user/userProfile')
@@ -51,15 +54,18 @@ app.use(passport.initialize());
 
 
 // Register router
-app.use('/user',registerApiRouter);
+app.use('/user',registerRouter);
 
 
 // Login router
-app.use('/user',loginApiRouter);
+app.use('/user',loginRouter);
 
 
 // Authentication middleware
 app.use(authToken);
+
+// Current Username router
+app.use('/', currentUsernameRouter);
 
 // Create tweet router
 app.use('/tweet',createTweetRouter);
@@ -74,6 +80,11 @@ app.use('/', followUserRouter)
 // Unfollow user router
 app.use('/', unfollowUserRouter)
 
+// Block user router
+app.use('/', blockUserRouter)
+
+// Unblock user router
+app.use('/', unblockUserRouter)
 
 // Timeline Tweets router
 app.use('/tweet', timelineTweetsRouter);

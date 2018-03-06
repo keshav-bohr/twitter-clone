@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const router  = require('express').Router();
 const followModel = require('./followModel');
 const user = require('../user/userModel')
+const createSuggestion = require('../suggestions/createSuggestions')
 
 
 function followUserHandler(req, res, next){
@@ -34,6 +35,7 @@ function followUserHandler(req, res, next){
         }
     })
     .then(followRecord => {
+        createSuggestion(req.body.username, req.currentUser.username)
         res.json({
             success: true
         })

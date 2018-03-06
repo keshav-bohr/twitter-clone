@@ -4,6 +4,7 @@ import TweetsOfFollowing from './TweetsOfFollowing'
 import CreateTweets from './CreateTweets';
 import SearchUser from './SearchUser';
 import UserProfile from './UserProfile';
+import GetCurrentUsername from './GetCurrentUsername';
 
 class UserHomepage extends Component{
     constructor(props){
@@ -13,17 +14,26 @@ class UserHomepage extends Component{
             homepage: true,
             profile: false,
             trend : false,
-            userProfile: ''
+            userProfile: '',
+            currentUsername : ''
         }
         this.showUserHomepage = this.showUserHomepage.bind(this);
         this.setMessage = this.setMessage.bind(this)
         this.setUserProfile = this.setUserProfile.bind(this)
         this.displayMessage = this.displayMessage.bind(this)
+        this.setHomepage = this.setHomepage.bind(this)
+        this.setCurrentUsername = this.setCurrentUsername.bind(this)
     }
 
     setMessage(messageFromChild){
         this.setState({
             message : messageFromChild
+        })
+    }
+
+    setCurrentUsername(currentUsername){
+        this.setState({
+            currentUsername : currentUsername
         })
     }
 
@@ -45,6 +55,13 @@ class UserHomepage extends Component{
         }
     }
 
+    setHomepage(){
+        this.setState({
+            homepage : true,
+            profile : false
+        })
+    }
+
 
     displayMessage(){
         setTimeout(() => {
@@ -58,6 +75,9 @@ class UserHomepage extends Component{
     render(){
         return (
             <div>
+                <GetCurrentUsername currentUsername = {this.setCurrentUsername} />
+                <button type = "button" id = "homeButton" className = "btn" onClick = {this.setHomepage}>Home</button>
+                <button type = "button" id = "profileButton" className = "btn" onClick = {this.setUserProfile.bind(this,this.state.currentUsername)}>Profile</button>
                 <div className = "alert alert-success" id = "successMessage" role="alert">
                     {this.displayMessage()||<br />}
                 </div>

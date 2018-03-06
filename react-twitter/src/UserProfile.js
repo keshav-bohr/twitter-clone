@@ -47,11 +47,17 @@ class UserProfile extends Component{
 
 
     componentDidUpdate(prevProps, prevState) {
-        if (prevProps.username !== this.props.username || prevState.toggleFlag !== this.state.toggleFlag) {
+        if (prevProps.username !== this.props.username) {
           this.setState({
-              searchUserFromDb : true
+              searchUserFromDb : true,
+              username : this.props.username,
           })
         }
+        if (prevState.toggleFlag !== this.state.toggleFlag) {
+            this.setState({
+                searchUserFromDb : true
+            })
+          }
       }
 
 
@@ -61,8 +67,8 @@ class UserProfile extends Component{
             <div>
                 {this.state.searchUserFromDb ? this.getProfileDataFromDb() : null}
                 {this.state.userFound ? <div> 
-                        <ProfileUserDetails userDetails = {this.state.profileData.userDetails} same = {this.state.profileData.same} isFollowing = {this.state.profileData.isFollowing} refreshUser = {this.refreshUserProfile}/> 
-                        <ProfileFollowDetails followDetails = {this.state.profileData.followDetails} refreshUser = {this.refreshUserProfile}/>
+                        <ProfileUserDetails profileData = {this.state.profileData} refreshUser = {this.refreshUserProfile}/> 
+                        {!this.state.profileData.isBlocked ? <ProfileFollowDetails followDetails = {this.state.profileData.followDetails} refreshUser = {this.refreshUserProfile}/> : null }
                     </div> : null}
             </div>
         )
