@@ -36,10 +36,10 @@ class ProfileFollowDetails extends Component {
         return (
             <div id="profileFollowDetails" onMouseLeave = {this.unsetListingFollow}>
                 <ul className="list-group">
-                    <h3 className="list-group-item list-group-item-dark" onClick = {this.callFollowModal.bind(this, 'Following', this.props.followDetails.following)}  > Following     {this.props.followDetails.following.length}</h3>
-                    <h3 className="list-group-item list-group-item-info" onClick = {this.callFollowModal.bind(this,'Followers', this.props.followDetails.follower)}   >Follower     {this.props.followDetails.follower.length}</h3>
+                    <h3 className="list-group-item" onClick = {this.callFollowModal.bind(this, 'Following', this.props.followDetails.following)}  > Following     {this.props.followDetails.following.length}</h3>
+                    <h3 className="list-group-item" onClick = {this.callFollowModal.bind(this,'Followers', this.props.followDetails.follower)}   >Follower     {this.props.followDetails.follower.length}</h3>
                 </ul>
-                {this.state.listingFollow ? <ListTheFollow title = {this.state.title} follow = {this.state.followArray} refreshUser = {this.props.refreshUser}/> : null}
+                {this.state.listingFollow ? <ListTheFollow title = {this.state.title} unsetListingFollow = {this.unsetListingFollow} follow = {this.state.followArray} refreshUser = {this.props.refreshUser}/> : null}
             </div>
             
         )

@@ -13,7 +13,10 @@ const createTweetRouter = require('./tweets/createTweet');
 const deleteTweetRouter = require('./tweets/deleteTweet');
 const config = require('./config/passport');
 const authToken = require('./authToken/authMiddleware');
-const currentUsernameRouter = require('./user/currentUsername')
+const currentUsernameRouter = require('./user/currentUsername');
+const listSuggestionsRouter = require('./suggestions/listSuggestions');
+const listTrendingsRouter = require('./trendingTags/listHashtags');
+const listSingleTrendRouter = require('./trendingTags/singleTrend')
 const followUserRouter = require('./follow/followUser');
 const unfollowUserRouter = require('./follow/unfollowUser');
 const blockUserRouter = require('./follow/blockUser');
@@ -21,6 +24,7 @@ const unblockUserRouter = require('./follow/unblockUser');
 const timelineTweetsRouter = require('./tweets/timelineTweets');
 const searchUserRouter = require('./user/searchUser')
 const userProfileRouter = require('./user/userProfile')
+const logoutRouter = require('./user/logout')
 
 
 
@@ -70,6 +74,15 @@ app.use('/', currentUsernameRouter);
 // Create tweet router
 app.use('/tweet',createTweetRouter);
 
+// List Suggestions router
+app.use('/', listSuggestionsRouter);
+
+// List Trendings router
+app.use('/', listTrendingsRouter);
+
+// List Single trend Tweets Router
+app.use('/', listSingleTrendRouter);
+
 // Delete tweet router
 app.use('/tweet',deleteTweetRouter);
 
@@ -96,6 +109,8 @@ app.use('/user', searchUserRouter)
 // User profile router
 app.use('/user', userProfileRouter)
 
+// Logout router
+app.use('/user', logoutRouter)
 
 // Server at 3001
 app.listen(3001);

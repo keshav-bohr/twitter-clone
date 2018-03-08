@@ -13,6 +13,7 @@ class Homepage extends Component{
         }
         this.checkLoginStatus = this.checkLoginStatus.bind(this)
         this.showHomepage = this.showHomepage.bind(this)
+        // this.setLogout = this.setLogout.bind(this)
     }
 
     checkLoginStatus(loggedInStatus){

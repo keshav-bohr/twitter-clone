@@ -28,14 +28,14 @@ class ProfileUserDetails extends Component{
     followButton(){
         if(!this.props.profileData.same && this.props.profileData.isFollowing){
             return <div>
-                    <button className = "list-group-item btn" onClick ={this.unfollowUser}>Following</button>
+                    <button className = "btn" onClick ={this.unfollowUser}>Following</button>
                     {this.state.unfollowRequest ? <UnfollowUser refreshUser = {this.props.refreshUser} username = {this.props.profileData.userDetails.username} /> : null}
                 </div>
         }
         else{
             if(!this.props.profileData.same && !this.props.profileData.isFollowing){
                 return <div>
-                        <button className = "list-group-item btn" onClick = {this.followUser} >Follow</button>
+                        <button className = "btn" onClick = {this.followUser} >Follow</button>
                         {this.state.followRequest ? <FollowUser refreshUser = {this.props.refreshUser} username = {this.props.profileData.userDetails.username} /> : null}
                     </div>
             }
@@ -46,14 +46,14 @@ class ProfileUserDetails extends Component{
     blockButton(){
         if(!this.props.profileData.same && !this.props.profileData.isBlocked){
             return <div>
-                    <button className = "list-group-item btn" onClick ={this.blockUser}>Block</button>
+                    <button className = "btn" onClick ={this.blockUser}>Block</button>
                     {this.state.blockRequest ? <BlockUser refreshUser = {this.props.refreshUser} username = {this.props.profileData.userDetails.username} /> : null}
                 </div>
         }
         else{
             if(!this.props.profileData.same && this.props.profileData.isBlocked){
                 return <div>
-                    <button className = "list-group-item btn" onClick ={this.unblockUser}>Unblock</button>
+                    <button className = "btn" onClick ={this.unblockUser}>Unblock</button>
                     {this.state.unblockRequest ? <UnblockUser refreshUser = {this.props.refreshUser} username = {this.props.profileData.userDetails.username} /> : null}
                 </div>
             }
@@ -92,14 +92,24 @@ class ProfileUserDetails extends Component{
         })
     }
 
+    componentDidUpdate(prevProps) {
+        if (prevProps !== this.props) {
+          this.setState({
+            followRequest : false,
+            unfollowRequest : false,
+            blockRequest : false,
+            unblockRequest : false
+          })
+        }
+    }
 
 
     render(){
         return(
             <div id = "profileUserDetails" >
                 <ul className="list-group">
-                    <h3 className="list-group-item list-group-item-dark">{this.props.profileData.userDetails.name}</h3>
-                    <h4 className = "list-group-item list-group-item-info">@{this.props.profileData.userDetails.username}</h4>
+                    <h3 className="list-group-item ">{this.props.profileData.userDetails.name}</h3>
+                    <h4 className="list-group-item ">@{this.props.profileData.userDetails.username}</h4>
                     {this.blockButton()}
                     {!this.props.profileData.isBlocked ? this.followButton() : null}
                 </ul>

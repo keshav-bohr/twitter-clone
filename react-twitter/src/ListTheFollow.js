@@ -8,16 +8,21 @@ class ListTheFollow extends Component{
 
     showUserProfile(element){
         this.props.refreshUser(element)
+        this.props.unsetListingFollow();
     }
 
 
     render(){
         return(
             <div id = "followList">
+                <br />
                 <h3>{this.props.title}</h3>
                 {this.props.follow.length === 0 ? "--" : null }
                 {this.props.follow.map((element, index) => {
-                    return <a className = "list-group-item"  key = {index} onClick = {this.showUserProfile.bind(this,element)} >{element}</a>
+                    return <div key = {index}> 
+                        <a onClick = {this.showUserProfile.bind(this,element)}>{element}</a>
+                        <hr />
+                        </div>
                 })}
             </div>
            

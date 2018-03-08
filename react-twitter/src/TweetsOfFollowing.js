@@ -48,8 +48,14 @@ class TweetsOfFollowing extends Component{
                     <div className="row">
                         <div className="col-md-4 offset-md-4" >
                             <button type = "button" className = "btn form-control input-lg" id="refreshTweets" onClick = {this.setRefreshTweets} >Refresh</button>
+                            <br />
                             {this.state.tweets.map((element, index) => {
-                                return <div key = {index}><p>{element.content}</p></div>
+                                return <div  key = {index} ><br /><div>
+                                    <h4 className="float-xl-right" onClick = {this.props.setUserProfile.bind(this,element.username)} >@{element.username}</h4><br/>                                  
+                                    <div >{element.content}</div>
+                                </div>
+                                <hr />
+                                </div>
                             })}
                         </div>
                     </div>
@@ -59,10 +65,6 @@ class TweetsOfFollowing extends Component{
         )
     }
 
-    // render(){
-    //     return(
-    //     )
-    // }
 
 }
 

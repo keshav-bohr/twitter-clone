@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import axios from 'axios'
 import ProfileUserDetails from './ProfileUserDetails';
 import ProfileFollowDetails from './ProfileFollowDetails';
+import ProfileTweets from './ProfileTweets';
 
 
 class UserProfile extends Component{
@@ -47,7 +48,7 @@ class UserProfile extends Component{
 
 
     componentDidUpdate(prevProps, prevState) {
-        if (prevProps.username !== this.props.username) {
+        if (prevProps.username !== this.props.username || prevProps.toggleSearchFlag !== this.props.toggleSearchFlag) {
           this.setState({
               searchUserFromDb : true,
               username : this.props.username,
@@ -58,8 +59,7 @@ class UserProfile extends Component{
                 searchUserFromDb : true
             })
           }
-      }
-
+    }
 
 
     render(){
@@ -69,6 +69,7 @@ class UserProfile extends Component{
                 {this.state.userFound ? <div> 
                         <ProfileUserDetails profileData = {this.state.profileData} refreshUser = {this.refreshUserProfile}/> 
                         {!this.state.profileData.isBlocked ? <ProfileFollowDetails followDetails = {this.state.profileData.followDetails} refreshUser = {this.refreshUserProfile}/> : null }
+                        {!this.state.profileData.isBlocked ? <ProfileTweets refreshUser = {this.refreshUserProfile} username = {this.state.username} profileData = {this.state.profileData} /> : null}
                     </div> : null}
             </div>
         )

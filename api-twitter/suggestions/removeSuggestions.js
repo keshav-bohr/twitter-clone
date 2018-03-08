@@ -9,7 +9,7 @@ function removeSuggestionsForCurrentUser(unfollowedUsername, currentUsername){
     .then(followRecord => {
         if(followRecord){
             followRecord.following.forEach(eachFollowing => {
-                return suggestionModel.findOne({username : currentUsername, suggestion : eachFollowing})
+                return suggestionModel.findOne({username : currentUsername, suggestionUsername : eachFollowing})
                 .then(suggestionRecord => {
                     if(suggestionRecord && suggestionRecord.counter>1){
                         return suggestionRecord.update({$inc : {counter : -1}})
@@ -37,7 +37,7 @@ function removeSuggestionsForFollowersOfCurrentUser(unfollowedUsername, currentU
     followModel.findOne({username : currentUsername})
     .then(followRecord => {
         followRecord.followers.forEach(eachFollower => {
-            return suggestionModel.findOne({username : eachFollower, suggestion : unfollowedUsername})
+            return suggestionModel.findOne({username : eachFollower, suggestionUsername : unfollowedUsername})
             .then(suggestionRecord => {
                 if(suggestionRecord && suggestionRecord.counter > 1){
                     return suggestionRecord.update({$inc : {counter : -1}})

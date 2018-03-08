@@ -18,6 +18,7 @@ class GetCurrentUsername extends Component{
         })
         .then(res => {
             this.props.currentUsername(res.data.currentUsername)
+            this.props.currentUser(res.data.currentUser)
             this.setState({
                 currentUsernameRequest : false
             })

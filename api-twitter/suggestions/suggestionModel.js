@@ -1,10 +1,13 @@
 const mongoose = require('mongoose');
 
 suggestionSchema = new mongoose.Schema({
-    username : {
+    suggestionName : {
         type: String
     }
-    ,suggestion : {
+    ,username : {
+        type: String
+    }
+    ,suggestionUsername : {
         type : String
     }
     ,counter : {

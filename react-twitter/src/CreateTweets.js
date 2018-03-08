@@ -43,7 +43,8 @@ class CreateTweets extends Component{
             .then(res => {
                 this.props.setMessage("Kweet Created")
                 this.setState({
-                    content : ''
+                    content : '',
+                    private : false
                 })
             })
             .catch(error => {

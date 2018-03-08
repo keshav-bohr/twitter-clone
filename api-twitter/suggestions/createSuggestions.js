@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const suggestionModel = require('./suggestionModel');
-const followModel = require('../follow/followModel')
+const followModel = require('../follow/followModel');
+const user = require('../user/userModel');
 
 
 
@@ -9,18 +10,22 @@ function createSuggestionsForCurrentUser(followedUsername, currentUsername){
     .then(followRecord => {
         if(followRecord){
             followRecord.following.forEach(eachFollowing => {
-                return suggestionModel.findOne({username : currentUsername, suggestion : eachFollowing})
+                return suggestionModel.findOne({username : currentUsername, suggestionUsername : eachFollowing})
                 .then(suggestionRecord => {
                     if(suggestionRecord){
                         return suggestionRecord.update({$inc : {counter : 1}})
                     }
                     else{
-                        const newSuggestion = new suggestionModel({
-                            username : currentUsername,
-                            suggestion : eachFollowing,
-                            counter : 1
+                        return user.findOne({username : eachFollowing})
+                        .then(user => {
+                            const newSuggestion = new suggestionModel({
+                                suggestionName : user.name,
+                                username : currentUsername,
+                                suggestionUsername : eachFollowing,
+                                counter : 1
+                            })
+                            return newSuggestion.save();
                         })
-                        return newSuggestion.save();
                     }
                 })
                 .then(suggestionRecord => {
@@ -39,18 +44,22 @@ function createSuggestionsForFollowersOfCurrentUser(followedUsername, currentUse
     followModel.findOne({username : currentUsername})
     .then(followRecord => {
         followRecord.followers.forEach(eachFollower => {
-            return suggestionModel.findOne({username : eachFollower, suggestion : followedUsername})
+            return suggestionModel.findOne({username : eachFollower, suggestionUsername : followedUsername})
             .then(suggestionRecord => {
                 if(suggestionRecord){
                     return suggestionRecord.update({$inc : {counter : 1}})
                 }
                 else{
-                    const newSuggestion = new suggestionModel({
-                        username : eachFollower,
-                        suggestion : followedUsername,
-                        counter : 1
+                    return user.findOne({username : followedUsername})
+                    .then(user => {
+                        const newSuggestion = new suggestionModel({
+                            suggestionName : user.name,
+                            username : eachFollower,
+                            suggestionUsername : followedUsername,
+                            counter : 1
+                        })
+                        return newSuggestion.save()
                     })
-                    return newSuggestion.save()
                 }
             })
             .then(suggestionRecord => {
