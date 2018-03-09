@@ -17,7 +17,7 @@ function checkTokenMiddleware(req, res, next){
             next(error);
         })
     }
-    }
+}
 
 
 module.exports = exports = checkTokenMiddleware;
