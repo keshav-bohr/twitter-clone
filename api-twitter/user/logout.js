@@ -6,7 +6,7 @@ const user = require('./userModel')
 
 function logoutHandler(req, res, next){
     var token = req.cookies.token;
-    user.findOne({username : req.currentUser.username})
+    user.verifyToken(token)
     .then(user => {
         return user.update({
             $pull : {

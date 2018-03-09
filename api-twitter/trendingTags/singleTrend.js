@@ -7,14 +7,21 @@ const router = require('express').Router();
 
 function singleTrendHandler(req, res, next){
     let singleTrendTweets = []
-    let usersWhoBlockedCurrent = []
+    let blockedTweets = []
+    // let usersBlockedByCurrent = []
     followModel.find({blocked : req.currentUser.username})
     .then(followRecords => {
-        usersWhoBlockedCurrent = followRecords
+        followRecords.forEach(eachRecord => {
+            blockedTweets = eachRecord.username
+        })
+        return followModel.findOne({username : req.currentUser.username})
+    })
+    .then(followRecord => {
+        blockedTweets = blockedTweets.concat(followRecord.blocked)
         return trendModel.findOne({hashtag : req.body.hashtag})
     })
     .then(trendRecord => {
-        return tweetModel.find({_id : {$in : trendRecord.tweetId}, username :{$nin : usersWhoBlockedCurrent.username}})
+        return tweetModel.find({_id : {$in : trendRecord.tweetId}, username :{$nin : blockedTweets}})
         .then(tweets => {
             tweets.forEach(singleTweet => {
                 singleTrendTweets.push({

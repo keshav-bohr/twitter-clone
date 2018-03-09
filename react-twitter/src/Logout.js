@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+// import cookie from 'react-cookies'
 import axios from 'axios'
 
 
@@ -30,8 +31,8 @@ class Logout extends Component{
             this.setState({
                 loggedOut : true
             })
+            // cookie.remove('token')
             // this.props.logout();
-            window.location.reload()
         })
         .catch(error => {
             console.error(error)
@@ -45,6 +46,7 @@ class Logout extends Component{
             <div>
                 <button type = "submit" id = "logoutButton" className = "btn" onClick = {this.setLogoutRequest} >Logout</button>
                 {this.state.logoutRequest ? this.logoutFromDb() : null}
+                {this.state.loggedOut ? window.location.reload() : null}
             </div>
         )
     }

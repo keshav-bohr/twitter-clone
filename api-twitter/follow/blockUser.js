@@ -6,12 +6,12 @@ const router = require('express').Router();
 
 
 function blockUserHandler(req, res, next){
-    followModel.findOne({username : req.currentUser.username, following : req.body.username})
+    followModel.findOne({username : req.currentUser.username})
     .then(followRecord => {
         if(followRecord){
             return followRecord.update({$pull: {following : req.body.username, followers : req.body.username} }, {multi : true})
             .then(followRecord => {
-                return followModel.findOne({username : req.body.username, followers : req.currentUser.username})
+                return followModel.findOne({username : req.body.username})
             })
             .then(followRecord => {
                 return followRecord.update({$pull : {followers : req.currentUser.username, following : req.currentUser.username}}, {multi : true})
