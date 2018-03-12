@@ -21,10 +21,10 @@ class DeleteTweet extends Component{
             ,withCredentials : true
         })
         .then(res => {
-            this.props.refreshUser(this.props.username)
             this.setState({
                 deleteTweetRequest: false
             })
+            this.props.refreshUser(this.props.username)
         })
         .catch(error => {
             console.error(error);

@@ -41,11 +41,11 @@ class CreateTweets extends Component{
                 withCredentials :true
             })
             .then(res => {
-                this.props.setMessage("Kweet Created")
                 this.setState({
                     content : '',
                     private : false
                 })
+                this.props.setMessage("Kweet Created")
             })
             .catch(error => {
                 this.props.setMessage("Kweet could not be created. Some internal error occurred")

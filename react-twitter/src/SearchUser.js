@@ -45,10 +45,10 @@ class SearchUser extends Component{
 
 
     showUserProfile(username){
-        this.props.userProfile(username)
         this.setState({
             searchContent : ''
         })
+        this.props.userProfile(username)
     }
 
 
