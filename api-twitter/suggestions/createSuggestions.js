@@ -10,28 +10,29 @@ function createSuggestionsForCurrentUser(followedUsername, currentUsername){
     .then(followRecord => {
         if(followRecord){
             followRecord.following.forEach(eachFollowing => {
-                return suggestionModel.findOne({username : currentUsername, suggestionUsername : eachFollowing})
-                .then(suggestionRecord => {
-                    if(suggestionRecord){
-                        return suggestionRecord.update({$inc : {counter : 1}})
-                    }
-                    else{
-                        return user.findOne({username : eachFollowing})
-                        .then(user => {
-                            const newSuggestion = new suggestionModel({
-                                suggestionName : user.name,
-                                username : currentUsername,
-                                suggestionUsername : eachFollowing,
-                                counter : 1
+                if(currentUsername !== eachFollowing){
+                    return suggestionModel.findOne({username : currentUsername, suggestionUsername : eachFollowing})
+                    .then(suggestionRecord => {
+                        if(suggestionRecord){
+                            return suggestionRecord.update({$inc : {counter : 1}})
+                        }
+                        else{
+                            return user.findOne({username : eachFollowing})
+                            .then(user => {
+                                const newSuggestion = new suggestionModel({
+                                    suggestionName : user.name,
+                                    username : currentUsername,
+                                    suggestionUsername : eachFollowing,
+                                    counter : 1
+                                })
+                                return newSuggestion.save();
                             })
-                            return newSuggestion.save();
-                        })
-                    }
-                })
-                .then(suggestionRecord => {
-                    removeSelfSuggestions(currentUsername);
-                    success : true
-                })
+                        }
+                    })
+                    .then(suggestionRecord => {
+                        success : true
+                    })
+                }
             })
         }
     })
@@ -45,28 +46,29 @@ function createSuggestionsForFollowersOfCurrentUser(followedUsername, currentUse
     followModel.findOne({username : currentUsername})
     .then(followRecord => {
         followRecord.followers.forEach(eachFollower => {
-            return suggestionModel.findOne({username : eachFollower, suggestionUsername : followedUsername})
-            .then(suggestionRecord => {
-                if(suggestionRecord){
-                    return suggestionRecord.update({$inc : {counter : 1}})
-                }
-                else{
-                    return user.findOne({username : followedUsername})
-                    .then(user => {
-                        const newSuggestion = new suggestionModel({
-                            suggestionName : user.name,
-                            username : eachFollower,
-                            suggestionUsername : followedUsername,
-                            counter : 1
+            if(eachFollower !== followedUsername){
+                return suggestionModel.findOne({username : eachFollower, suggestionUsername : followedUsername})
+                .then(suggestionRecord => {
+                    if(suggestionRecord){
+                        return suggestionRecord.update({$inc : {counter : 1}})
+                    }
+                    else{
+                        return user.findOne({username : followedUsername})
+                        .then(user => {
+                            const newSuggestion = new suggestionModel({
+                                suggestionName : user.name,
+                                username : eachFollower,
+                                suggestionUsername : followedUsername,
+                                counter : 1
+                            })
+                            return newSuggestion.save()
                         })
-                        return newSuggestion.save()
-                    })
-                }
-            })
-            .then(suggestionRecord => {
-                removeSelfSuggestions(currentUsername);
-                success : true
-            })
+                    }
+                })
+                .then(suggestionRecord => {
+                    success : true
+                })
+            }
         })
     })
     .catch(error => {
@@ -74,21 +76,6 @@ function createSuggestionsForFollowersOfCurrentUser(followedUsername, currentUse
     })
 }
 
-
-function removeSelfSuggestions(currentUsername){
-    suggestionModel.findOne({username : currentUsername, suggestionUsername : currentUsername})
-    .then(suggestionRecord => {
-        if(suggestionRecord){
-            return suggestionRecord.remove()
-        }
-    })
-    .then(suggestionRecord => {
-        success : true
-    })
-    .catch(error => {
-        next(error);
-    })
-}
 
 
 function createSuggestions(followedUsername, currentUsername){
