@@ -29,6 +29,7 @@ function createSuggestionsForCurrentUser(followedUsername, currentUsername){
                     }
                 })
                 .then(suggestionRecord => {
+                    removeSelfSuggestions(currentUsername);
                     success : true
                 })
             })
@@ -63,6 +64,7 @@ function createSuggestionsForFollowersOfCurrentUser(followedUsername, currentUse
                 }
             })
             .then(suggestionRecord => {
+                removeSelfSuggestions(currentUsername);
                 success : true
             })
         })
@@ -73,10 +75,25 @@ function createSuggestionsForFollowersOfCurrentUser(followedUsername, currentUse
 }
 
 
+function removeSelfSuggestions(currentUsername){
+    suggestionModel.findOne({username : currentUsername, suggestionUsername : currentUsername})
+    .then(suggestionRecord => {
+        if(suggestionRecord){
+            return suggestionRecord.remove()
+        }
+    })
+    .then(suggestionRecord => {
+        success : true
+    })
+    .catch(error => {
+        next(error);
+    })
+}
+
 
 function createSuggestions(followedUsername, currentUsername){
     createSuggestionsForCurrentUser(followedUsername, currentUsername);
-    createSuggestionsForFollowersOfCurrentUser(followedUsername, currentUsername);
+    createSuggestionsForFollowersOfCurrentUser(followedUsername, currentUsername);    
 }
 
 
