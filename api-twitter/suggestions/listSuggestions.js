@@ -8,16 +8,15 @@ const router = require('express').Router();
 
 function listSuggestionHandler(req, res, next){
     let suggestions = [];
-    // let singleSuggestion = {}
+    blockedAndFollowingUsers = []
     followModel.findOne({username : req.currentUser.username})
     .then(followRecord => {
-        return suggestionModel.find({username: req.currentUser.username, suggestionUsername : {$nin : followRecord.following, $nin : followRecord.blocked}})
+        blockedAndFollowingUsers = followRecord.following;
+        blockedAndFollowingUsers = blockedAndFollowingUsers.concat(followRecord.blocked)
+        return suggestionModel.find({username: req.currentUser.username, suggestionUsername : {$nin : blockedAndFollowingUsers}})
     })
     .then(suggestionRecords => {
         suggestionRecords.forEach((eachSuggestion, index) => {
-            // singleSuggestion.suggestion = eachSuggestion.suggestion;
-            // singleSuggestion.counter = eachSuggestion.counter;
-            // singleSuggestion.name = eachSuggestion.name;
             suggestions.push({
                 suggestion : eachSuggestion.suggestionUsername,
                 counter : eachSuggestion.counter,
