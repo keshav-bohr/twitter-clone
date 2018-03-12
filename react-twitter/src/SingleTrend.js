@@ -38,7 +38,7 @@ class SingleTrend extends Component{
                 {this.state.singleTrendRequest ? this.fetchSingleTrendTweetsFromDb() : null}
                 {this.state.singleTrendTweets.map((element, index) => {
                     return <div className = "col-6 offset-md-3" key = {index}>
-                            <h3 onClick = {this.props.setUserProfile.bind(this,element.username)} >{element.username}</h3>
+                            <h3 onClick = {this.props.setUserProfile.bind(this,element.username)} >@{element.username}</h3>
                             <h4><li>{element.content}</li></h4><hr /><br/>
                         </div>
                 })}
