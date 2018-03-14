@@ -9,7 +9,7 @@ function deleteTweetHandler(req, res, next){
         "user": req.currentUser.id
     })
     .then(tweets => {
-        let tweet = tweets[req.body.index]
+        let tweet = tweets[tweets.length - 1 - req.body.index]
         if(tweet){
             if(tweet.public){
                 deleteHashtags(tweet.content, tweet.id)

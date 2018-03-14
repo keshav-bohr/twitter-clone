@@ -43,6 +43,7 @@ function userProfileHandler(req, res, next){
     .then(tweets => {
         if(!profileData.isBlocked){
             profileData.tweets = tweets;
+            profileData.tweets.sort(function(a, b){return b.createdAt - a.createdAt})
         }
         return followModel.findOne({username: req.body.username})
     })
