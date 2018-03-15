@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-// import cookie from 'react-cookies'
 import axios from 'axios'
 
 
@@ -31,8 +30,6 @@ class Logout extends Component{
             this.setState({
                 loggedOut : true
             })
-            // cookie.remove('token')
-            // this.props.logout();
         })
         .catch(error => {
             console.error(error)

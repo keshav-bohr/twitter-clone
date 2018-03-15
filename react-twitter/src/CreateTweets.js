@@ -67,7 +67,6 @@ class CreateTweets extends Component{
                             </div> :<div><br /></div>}
                             
                             <textarea rows = "1" type="text" className="form-control input-lg" id="myInput" value = {this.state.content} onChange = {this.setContent} placeholder="Create Kweet Here" />
-                            {/* listtweets */}
                             <br />
                         </div>
                     </div>
