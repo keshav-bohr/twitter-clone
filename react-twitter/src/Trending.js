@@ -43,7 +43,7 @@ class Trending extends Component{
                 {this.state.trendings.map((element, index) => {
                     return <div key = {index} className = "row" >
                             <div  className = "col-6 offset-md-2">
-                                <h4 onClick = {this.props.setSingleTrend.bind(this,element.hashtag)}>#{element.hashtag}</h4>
+                                <h4  style={{cursor : 'pointer'}} onClick = {this.props.setSingleTrend.bind(this,element.hashtag)}>#{element.hashtag}</h4>
                                 <h6 >Trends : {element.counter}</h6>
                                 <hr />
                             </div>

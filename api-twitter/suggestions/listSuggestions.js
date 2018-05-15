@@ -11,18 +11,22 @@ function listSuggestionHandler(req, res, next){
     blockedAndFollowingUsers = []
     followModel.findOne({username : req.currentUser.username})
     .then(followRecord => {
-        blockedAndFollowingUsers = followRecord.following;
-        blockedAndFollowingUsers = blockedAndFollowingUsers.concat(followRecord.blocked)
-        return suggestionModel.find({username: req.currentUser.username, suggestionUsername : {$nin : blockedAndFollowingUsers}})
+        if(followRecord){
+            blockedAndFollowingUsers = followRecord.following;
+            blockedAndFollowingUsers = blockedAndFollowingUsers.concat(followRecord.blocked)
+            return suggestionModel.find({username: req.currentUser.username, suggestionUsername : {$nin : blockedAndFollowingUsers}})
+        }
     })
     .then(suggestionRecords => {
-        suggestionRecords.forEach((eachSuggestion, index) => {
-            suggestions.push({
-                suggestion : eachSuggestion.suggestionUsername,
-                counter : eachSuggestion.counter,
-                name : eachSuggestion.suggestionName
+        if(suggestionRecords){
+            suggestionRecords.forEach((eachSuggestion, index) => {
+                suggestions.push({
+                    suggestion : eachSuggestion.suggestionUsername,
+                    counter : eachSuggestion.counter,
+                    name : eachSuggestion.suggestionName
+                })
             })
-        })
+        }
         res.json({
             suggestions : suggestions
         })

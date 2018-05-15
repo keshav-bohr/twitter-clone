@@ -51,7 +51,7 @@ class TweetsOfFollowing extends Component{
                             <br />
                             {this.state.tweets.map((element, index) => {
                                 return <div  key = {index} ><br /><div>
-                                    <h4 className="float-xl-right" onClick = {this.props.setUserProfile.bind(this,element.username)} >@{element.username}</h4><br/>                                  
+                                    <h4 className="float-xl-right" style={{cursor : 'pointer'}} onClick = {this.props.setUserProfile.bind(this,element.username)} >@{element.username}</h4><br/>                                  
                                     <div >{element.content}</div>
                                 </div>
                                 <hr />

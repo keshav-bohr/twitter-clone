@@ -22,14 +22,14 @@ function timelineTweetsHandler(req, res, next){
                 }
                 else{
                     res.json({
-                        tweets : ["no tweets found"]
+                        tweets : []
                     })
                 }
             })
         }
         else{
             res.json({
-                tweets : ["you have no followings"]
+                tweets : []
             })
         }
     })

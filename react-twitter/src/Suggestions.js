@@ -38,8 +38,8 @@ class Suggestions extends Component{
                 {this.state.suggestions.map((element, index) => {
                     return <div key = {index} className = "row" >
                             <div  className = "col-8 offset-md-3">
-                                <h4 onClick = {this.props.setUserProfile.bind(this,element.suggestion)} className = "float-left">{element.name}</h4>
-                                <h5 onClick = {this.props.setUserProfile.bind(this,element.suggestion)} className = "float-right">@{element.suggestion}</h5><br /><br />
+                                <h4 style={{cursor : 'pointer'}} onClick = {this.props.setUserProfile.bind(this,element.suggestion)} className = "float-left">{element.name}</h4>
+                                <h5 style={{cursor : 'pointer'}} onClick = {this.props.setUserProfile.bind(this,element.suggestion)} className = "float-right">@{element.suggestion}</h5><br /><br />
                                 <h6 >{element.counter} mututal followers</h6>
                                 <hr />
                             </div>

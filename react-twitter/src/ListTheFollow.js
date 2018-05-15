@@ -20,7 +20,7 @@ class ListTheFollow extends Component{
                 {this.props.follow.length === 0 ? "--" : null }
                 {this.props.follow.map((element, index) => {
                     return <div key = {index}> 
-                        <a onClick = {this.showUserProfile.bind(this,element)}>{element}</a>
+                        <a style={{cursor : 'pointer'}} onClick = {this.showUserProfile.bind(this,element)}>{element}</a>
                         <hr />
                         </div>
                 })}

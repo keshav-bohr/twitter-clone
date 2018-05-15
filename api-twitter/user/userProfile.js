@@ -51,10 +51,10 @@ function userProfileHandler(req, res, next){
         if(followRecord){
             profileData.followDetails.following = followRecord.following;
             profileData.followDetails.follower = followRecord.followers;
+            profileData.followDetails.blocked = followRecord.blocked
         }
         if(req.body.username === req.currentUser.username){
-            profileData.same = true,
-            profileData.followDetails.blocked = followRecord.blocked
+            profileData.same = true
         }
         res.json({
             profileData

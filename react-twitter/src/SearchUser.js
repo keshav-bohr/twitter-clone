@@ -61,7 +61,7 @@ class SearchUser extends Component{
                 {this.state.searchFlag ? this.checkUserFromDb() : null}
                 <div  style = {{display : showing}} >
                     {this.state.users.map((element, index) => {
-                        return <a className = "list-group-item"  key = {index} onClick = {this.showUserProfile.bind(this,element.username)} >{element.name}</a>
+                        return <a className = "list-group-item" style={{cursor:'pointer'}} key = {index} onClick = {this.showUserProfile.bind(this,element.username)} >{element.name}</a>
                     })}
                 </div>
             </div>
